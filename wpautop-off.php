@@ -23,7 +23,8 @@ else { // ! is_admin()
   add_filter('the_excerpt', 'wpautop_control_after', 11);
 
   function wpautop_control_before($content) {
-    $remove_filter = preg_match('/<p[^>]*>/i', $content);
+    // if there are paragraph or line break tags wpautop is switched off
+    $remove_filter = preg_match('/<(p|br)[^>]*>/i', $content);
 
     if ( $remove_filter ) {
       remove_filter('the_content', 'wpautop');
@@ -34,7 +35,8 @@ else { // ! is_admin()
   }
   
   function wpautop_control_after($content) {
-    $add_filter = preg_match('/<p[^>]*>/i', $content);
+    // if there are paragraph or line break tags wpautop is switched off
+    $add_filter = preg_match('/<(p|br)[^>]*/i', $content);
     
     if ( $add_filter ) {
       add_filter('the_content', 'wpautop');
